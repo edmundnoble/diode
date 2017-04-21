@@ -153,12 +153,12 @@ lazy val diodeDevToolsJS = diodeDevtools.js
 
 lazy val diodeDevToolsJVM = diodeDevtools.jvm
 
-lazy val diodeReact = project
-  .in(file("diode-react"))
+lazy val diodeReactLegacy = project
+  .in(file("diode-react-legacy"))
   .settings(commonSettings: _*)
   .settings(publishSettings: _*)
   .settings(
-    name := "diode-react",
+    name := "diode-react-legacy",
     libraryDependencies ++= Seq(
       "com.github.japgolly.scalajs-react" %%% "core" % "0.11.3"
     ),
@@ -167,6 +167,20 @@ lazy val diodeReact = project
   .dependsOn(diodeJS)
   .enablePlugins(ScalaJSPlugin)
 
+lazy val diodeReactNeo = project
+  .in(file("diode-react-neo"))
+  .settings(commonSettings: _*)
+  .settings(publishSettings: _*)
+  .settings(
+    name := "diode-react-neo",
+    libraryDependencies ++= Seq(
+      "com.github.japgolly.scalajs-react" %%% "core" % "1.0.0-RC3"
+    ),
+    scalacOptions ++= sourceMapSetting.value
+  )
+  .dependsOn(diodeJS)
+  .enablePlugins(ScalaJSPlugin)
+
 lazy val root = preventPublication(project.in(file(".")))
   .settings(commonSettings: _*)
-  .aggregate(diodeJS, diodeJVM, diodeCoreJS, diodeCoreJVM, diodeDataJS, diodeDataJVM, diodeReact, diodeDevToolsJS, diodeDevToolsJVM)
+  .aggregate(diodeJS, diodeJVM, diodeCoreJS, diodeCoreJVM, diodeDataJS, diodeDataJVM, diodeReactLegacy, diodeReactNeo, diodeDevToolsJS, diodeDevToolsJVM)
